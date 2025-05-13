@@ -1,5 +1,5 @@
 
-import { createRefresh } from "react-auth-kit";
+import createRefresh from "react-auth-kit";
 
 // Type definitions for user and session
 export interface User {
@@ -36,9 +36,9 @@ export const authOptions = {
     }
   },
   
-  refreshToken: createRefresh({
+  refreshToken: {
     interval: 10, // refresh every 10 minutes
-    refreshApiCallback: async (param) => {
+    refreshApiCallback: async (param: any) => {
       try {
         // This would call a token refresh API in a real app
         return {
@@ -52,7 +52,7 @@ export const authOptions = {
         };
       }
     }
-  })
+  }
 };
 
 export const useAuthHelper = () => {
