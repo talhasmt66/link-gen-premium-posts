@@ -1,7 +1,5 @@
 
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import useSignIn from 'react-auth-kit/hooks/useSignIn';
-import useSignOut from 'react-auth-kit/hooks/useSignOut';
+import { useAuthUser, useSignIn, useSignOut } from 'react-auth-kit';
 import { authOptions, User } from '@/lib/auth';
 
 export const useAuth = () => {
@@ -9,7 +7,7 @@ export const useAuth = () => {
   const signIn = useSignIn();
   const signOut = useSignOut();
   
-  const user = authUser;
+  const user = authUser();
   
   const googleSignIn = async () => {
     // In a real app, this would open Google OAuth
