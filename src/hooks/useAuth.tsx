@@ -9,6 +9,7 @@ export const useAuth = () => {
   const signIn = useSignIn();
   const signOut = useSignOut();
   
+  // Get user data from auth state
   const user = authUser();
   
   const googleSignIn = async () => {
