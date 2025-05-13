@@ -5,11 +5,11 @@ import useSignOut from 'react-auth-kit/hooks/useSignOut';
 import { authOptions, User } from '@/lib/auth';
 
 export const useAuth = () => {
-  const authUser = useAuthUser();
+  const authUser = useAuthUser<User>();
   const signIn = useSignIn();
   const signOut = useSignOut();
   
-  const user = authUser() as User | null;
+  const user = authUser();
   
   const googleSignIn = async () => {
     // In a real app, this would open Google OAuth
@@ -24,10 +24,11 @@ export const useAuth = () => {
     
     if (result.isSuccess) {
       signIn({
-        token: "demo-token",
-        expiresIn: 3600,
-        tokenType: "Bearer",
-        authState: result.user
+        auth: {
+          token: "demo-token",
+          type: "Bearer",
+        },
+        userState: result.user
       });
       return true;
     }

@@ -1,6 +1,4 @@
 
-import createRefresh from "react-auth-kit";
-
 // Type definitions for user and session
 export interface User {
   id: string;
@@ -33,24 +31,6 @@ export const authOptions = {
         isSuccess: false,
         error: "Sign in failed"
       };
-    }
-  },
-  
-  refreshToken: {
-    interval: 10, // refresh every 10 minutes
-    refreshApiCallback: async (param: any) => {
-      try {
-        // This would call a token refresh API in a real app
-        return {
-          isSuccess: true,
-          newAuthToken: "new-token",
-        };
-      } catch (error) {
-        return {
-          isSuccess: false,
-          error: "Failed to refresh token"
-        };
-      }
     }
   }
 };
