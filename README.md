@@ -1,73 +1,74 @@
-# Welcome to your Lovable project
 
-## Project info
+# LinkedIn Post Generator
 
-**URL**: https://lovable.dev/projects/db86d3f9-de77-43e3-937b-89109ce9806b
+A full-stack application that generates engaging LinkedIn posts using AI. Built with React, NextAuth, OpenAI GPT-4, and Stripe for premium subscriptions.
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+- **Authentication** via Google OAuth using NextAuth
+- **AI Post Generation** powered by OpenAI GPT-4
+- **Free tier** with 20 post limit
+- **Premium tier** with unlimited posts via Stripe payment
+- **Post management** with save, copy, and delete functionality
+- **Responsive UI** built with Tailwind CSS
 
-**Use Lovable**
+## Setup Instructions
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/db86d3f9-de77-43e3-937b-89109ce9806b) and start prompting.
+### Prerequisites
 
-Changes made via Lovable will be committed automatically to this repo.
+1. Node.js and npm installed
+2. OpenAI API key
+3. Google OAuth credentials
+4. Stripe account for payment processing
 
-**Use your preferred IDE**
+### Environment Variables
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Create a `.env.local` file in the root directory with the following variables:
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+```
+# Database
+DATABASE_URL="file:./dev.db"
 
-Follow these steps:
+# NextAuth
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-nextauth-secret
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Google OAuth
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# OpenAI
+OPENAI_API_KEY=your-openai-api-key
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+# Stripe
+STRIPE_SECRET_KEY=your-stripe-secret-key
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your-stripe-publishable-key
+STRIPE_WEBHOOK_SECRET=your-stripe-webhook-secret
 ```
 
-**Edit a file directly in GitHub**
+### Installation
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Initialize the database: `npx prisma migrate dev --name init`
+4. Start the development server: `npm run dev`
+5. Visit `http://localhost:3000` in your browser
 
-**Use GitHub Codespaces**
+### Stripe Webhook Setup
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+1. Install Stripe CLI: https://stripe.com/docs/stripe-cli
+2. Run the following command to forward events to your local server:
+   ```
+   stripe listen --forward-to localhost:3000/api/webhooks/stripe
+   ```
+3. Use the webhook secret in your `.env.local` file
 
-## What technologies are used for this project?
+## Deployment
 
-This project is built with:
+This application is designed for deployment on Vercel. Set up the necessary environment variables in the Vercel dashboard.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+For production, use a cloud database like PlanetScale or Heroku Postgres since Vercel's filesystem is ephemeral.
 
-## How can I deploy this project?
+## License
 
-Simply open [Lovable](https://lovable.dev/projects/db86d3f9-de77-43e3-937b-89109ce9806b) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+MIT
