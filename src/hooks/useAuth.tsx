@@ -1,8 +1,5 @@
 
-import { createStore } from "react-auth-kit";
-import { useAuthUser } from "react-auth-kit/hooks";
-import { useSignIn } from "react-auth-kit/hooks";
-import { useSignOut } from "react-auth-kit/hooks";
+import { useAuthUser, useSignIn, useSignOut } from 'react-auth-kit';
 import { authOptions, User } from '@/lib/auth';
 
 export const useAuth = () => {
