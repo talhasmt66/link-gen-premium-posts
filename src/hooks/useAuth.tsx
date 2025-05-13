@@ -9,7 +9,7 @@ export const useAuth = () => {
   const signIn = useSignIn();
   const signOut = useSignOut();
   
-  const user = authUser();
+  const user = authUser;
   
   const googleSignIn = async () => {
     // In a real app, this would open Google OAuth
