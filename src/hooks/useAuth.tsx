@@ -1,5 +1,7 @@
 
-import { useAuthUser, useSignIn, useSignOut } from 'react-auth-kit';
+import useAuthUser from "react-auth-kit/useAuthUser";
+import useSignIn from "react-auth-kit/useSignIn";
+import useSignOut from "react-auth-kit/useSignOut";
 import { authOptions, User } from '@/lib/auth';
 
 export const useAuth = () => {
