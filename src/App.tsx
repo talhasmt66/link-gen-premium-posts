@@ -4,7 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "react-auth-kit";
+import { createAuthProvider } from "react-auth-kit";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Generator from "./pages/Generator";
@@ -15,13 +15,16 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// Create auth provider with correct configuration
+const AuthProvider = createAuthProvider({
+  authType: 'cookie',
+  authName: '_auth',
+  cookieDomain: window.location.hostname,
+  cookieSecure: window.location.protocol === "https:",
+});
+
 const App = () => (
-  <AuthProvider
-    authType="cookie"
-    authName="_auth"
-    cookieDomain={window.location.hostname}
-    cookieSecure={window.location.protocol === "https:"}
-  >
+  <AuthProvider>
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
