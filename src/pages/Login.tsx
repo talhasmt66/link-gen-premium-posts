@@ -1,16 +1,32 @@
 
-import { useState } from 'react';
-import { signIn } from 'next-auth/react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { LinkedinIcon } from 'lucide-react';
+import useAuth from '@/hooks/useAuth';
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
+  const { signIn, status } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      navigate('/generator');
+    }
+  }, [status, navigate]);
 
   const handleSignIn = async () => {
     setIsLoading(true);
-    await signIn('google', { callbackUrl: '/generator' });
+    try {
+      await signIn();
+      navigate('/generator');
+    } catch (error) {
+      console.error('Sign in failed:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

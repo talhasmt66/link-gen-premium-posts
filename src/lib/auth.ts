@@ -1,40 +1,69 @@
 
-import { NextAuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import prisma from "./prisma";
+import { createRefresh } from "react-auth-kit";
 
-export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
-  providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-    }),
-  ],
-  session: {
-    strategy: "jwt",
+// Type definitions for user and session
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  image?: string;
+  role: "free" | "premium";
+  postCount: number;
+}
+
+// Simplified auth options for Vite environment
+export const authOptions = {
+  signIn: async (credentials: { email: string; name: string; image?: string }) => {
+    try {
+      // In a real app, this would call an API to validate credentials
+      // For now, we'll simulate a successful sign-in
+      return {
+        isSuccess: true,
+        user: {
+          id: `user-${Math.random().toString(36).substr(2, 9)}`,
+          name: credentials.name,
+          email: credentials.email,
+          image: credentials.image,
+          role: "free",
+          postCount: 0
+        } as User
+      };
+    } catch (error) {
+      return {
+        isSuccess: false,
+        error: "Sign in failed"
+      };
+    }
   },
-  callbacks: {
-    async session({ session, token }) {
-      if (token.sub && session.user) {
-        session.user.id = token.sub;
-        
-        // Get user data from database to include role and postCount
-        const user = await prisma.user.findUnique({
-          where: { id: token.sub },
-          select: { role: true, postCount: true },
-        });
-        
-        if (user) {
-          session.user.role = user.role;
-          session.user.postCount = user.postCount;
-        }
+  
+  refreshToken: createRefresh({
+    interval: 10, // refresh every 10 minutes
+    refreshApiCallback: async (param) => {
+      try {
+        // This would call a token refresh API in a real app
+        return {
+          isSuccess: true,
+          newAuthToken: "new-token",
+        };
+      } catch (error) {
+        return {
+          isSuccess: false,
+          error: "Failed to refresh token"
+        };
       }
-      return session;
-    },
-  },
-  pages: {
-    signIn: "/login",
-  },
+    }
+  })
+};
+
+export const useAuthHelper = () => {
+  // Helper functions for auth logic
+  const getUser = (): User | null => {
+    const authState = localStorage.getItem('_auth_state');
+    return authState ? JSON.parse(authState) : null;
+  };
+  
+  return {
+    getUser,
+    isAuthenticated: () => !!getUser()
+  };
 };

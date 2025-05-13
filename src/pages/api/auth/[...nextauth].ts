@@ -1,5 +1,5 @@
 
-import NextAuth from "next-auth";
-import { authOptions } from "@/lib/auth";
+// This file is kept for reference but won't be used in our Vite-based app
+// We're using client-side auth with react-auth-kit instead
 
-export default NextAuth(authOptions);
+export default {} as any;

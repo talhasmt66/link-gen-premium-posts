@@ -4,7 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { SessionProvider } from "next-auth/react";
+import { AuthProvider } from "react-auth-kit";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Generator from "./pages/Generator";
@@ -16,7 +16,12 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <SessionProvider>
+  <AuthProvider
+    authType={"cookie"}
+    authName={"_auth"}
+    cookieDomain={window.location.hostname}
+    cookieSecure={window.location.protocol === "https:"}
+  >
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
@@ -34,7 +39,7 @@ const App = () => (
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
-  </SessionProvider>
+  </AuthProvider>
 );
 
 export default App;

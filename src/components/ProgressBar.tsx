@@ -1,18 +1,18 @@
 
-import { useSession } from 'next-auth/react';
+import useAuth from '@/hooks/useAuth';
 
 interface ProgressBarProps {
   className?: string;
 }
 
 export default function ProgressBar({ className = '' }: ProgressBarProps) {
-  const { data: session } = useSession();
+  const { user } = useAuth();
   
-  if (!session || session.user.role === 'premium') {
+  if (!user || user.role === 'premium') {
     return null;
   }
   
-  const postCount = session.user.postCount || 0;
+  const postCount = user.postCount || 0;
   const maxPosts = 20;
   const percentage = Math.min((postCount / maxPosts) * 100, 100);
 

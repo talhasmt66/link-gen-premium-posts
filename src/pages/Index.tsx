@@ -1,19 +1,19 @@
 
 import { useEffect } from 'react';
-import { useSession, signIn } from 'next-auth/react';
-import { useRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { LinkedinIcon, Sparkles } from 'lucide-react';
+import useAuth from '@/hooks/useAuth';
 
 export default function Index() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  const { status, signIn } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (status === 'authenticated') {
-      router.push('/generator');
+      navigate('/generator');
     }
-  }, [status, router]);
+  }, [status, navigate]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-100">
@@ -36,7 +36,7 @@ export default function Index() {
             <Button 
               size="lg"
               className="bg-linkedin-blue hover:bg-linkedin-darkBlue text-white px-8"
-              onClick={() => status === 'authenticated' ? router.push('/generator') : signIn('google')}
+              onClick={() => status === 'authenticated' ? navigate('/generator') : signIn()}
             >
               {status === 'authenticated' ? 'Go to Generator' : 'Sign in with Google'}
             </Button>
@@ -75,7 +75,7 @@ export default function Index() {
             <Button 
               variant="outline" 
               className="mt-auto"
-              onClick={() => router.push('/pricing')}
+              onClick={() => navigate('/pricing')}
             >
               View Pricing
             </Button>

@@ -1,12 +1,13 @@
 
 import { useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { Navigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import PostForm from '@/components/PostForm';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CopyIcon, CheckIcon } from 'lucide-react';
 import { toast } from 'sonner';
+import useAuth from '@/hooks/useAuth';
 
 interface Post {
   id: string;
@@ -18,7 +19,7 @@ interface Post {
 }
 
 export default function Generator() {
-  const { data: session, status } = useSession();
+  const { user, status } = useAuth();
   const [post, setPost] = useState<Post | null>(null);
   const [isCopied, setIsCopied] = useState(false);
 
@@ -44,7 +45,7 @@ export default function Generator() {
   }
 
   if (status === 'unauthenticated') {
-    return <Login />;
+    return <Navigate to="/login" />;
   }
 
   return (

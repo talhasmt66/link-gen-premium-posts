@@ -1,10 +1,10 @@
 
-import { useRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { SparklesIcon } from 'lucide-react';
 
 export default function PremiumBanner() {
-  const router = useRouter();
+  const navigate = useNavigate();
   
   return (
     <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-4 rounded-lg text-white">
@@ -16,7 +16,7 @@ export default function PremiumBanner() {
         You've reached your free post limit. Upgrade to Premium for unlimited posts!
       </p>
       <Button 
-        onClick={() => router.push('/pricing')} 
+        onClick={() => navigate('/pricing')} 
         variant="secondary" 
         className="w-full bg-white text-purple-700 hover:bg-gray-100"
       >

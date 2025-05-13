@@ -1,29 +1,27 @@
 
 import { useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckIcon, Sparkles } from 'lucide-react';
+import useAuth from '@/hooks/useAuth';
 
 export default function Pricing() {
-  const { data: session, status } = useSession();
+  const { user, status } = useAuth();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleCheckout = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create checkout session');
-      }
-
-      const { url } = await response.json();
-      window.location.href = url;
+      // In a real app, this would call your payment API
+      // For demo purposes, we'll simulate a successful checkout
+      setTimeout(() => {
+        toast.success('Payment successful!');
+        navigate('/success');
+      }, 1500);
     } catch (error) {
       console.error('Error creating checkout:', error);
       toast.error('Failed to initiate checkout');
@@ -32,7 +30,7 @@ export default function Pricing() {
     }
   };
 
-  const isPremium = session?.user?.role === 'premium';
+  const isPremium = user?.role === 'premium';
 
   return (
     <div className="min-h-screen bg-gray-50">
