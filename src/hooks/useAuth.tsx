@@ -3,7 +3,8 @@ import { useAuthUser, useSignIn, useSignOut } from 'react-auth-kit';
 import { authOptions, User } from '@/lib/auth';
 
 export const useAuth = () => {
-  const authUser = useAuthUser<User>();
+  // Use the hooks without type parameters since the current version doesn't support them
+  const authUser = useAuthUser();
   const signIn = useSignIn();
   const signOut = useSignOut();
   
@@ -23,11 +24,9 @@ export const useAuth = () => {
     
     if (result.isSuccess) {
       signIn({
-        auth: {
-          token: "demo-token",
-          type: "Bearer",
-        },
-        userState: result.user
+        token: "demo-token",
+        tokenType: "Bearer",
+        authState: result.user
       });
       return true;
     }
