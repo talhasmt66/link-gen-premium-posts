@@ -26,7 +26,8 @@ export const useAuth = () => {
       signIn({
         token: "demo-token",
         tokenType: "Bearer",
-        authState: result.user
+        authState: result.user,
+        expiresIn: 3600 // Add the required expiresIn property (1 hour in seconds)
       });
       return true;
     }
